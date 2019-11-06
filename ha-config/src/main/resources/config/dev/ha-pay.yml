@@ -1,0 +1,47 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: ha-pay
+
+pay:
+  alipay:
+     appId: 20190910671950290
+     privateKey: MIIxEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQZrb9R9epOyjcGx4ca3CCh6asB8p9MhmJiMBxQM0Wr5OWs/Gc884aIiKD+ZK2JSSn1Waty/peDRUEdvtQdkPUl/0OJCqGxiHtUGbwJFRL4tjbHPdXdwcHk7KsnCrb/Cu06clRVv1EJd7pl1G/WIu0t37sZiy98Jgtt6y7vFfyDM4PlfpolusKJkSOv1vV0X5/z5RGl/XktZ6R3ZSU4u4YbItWmCGAqtdBpfoflZnLiusjiOnAWQXha12McHuborBcNRec9qhZLUUHZ4FT8yODUL8ez7VB8qvbeoVI4x/15Ud0zBNA1pZz/rui1KHAK6uuDGCxHLt+4BCJbPfVFWPNAgMBAAECggEASUU1ONOJZH92PiksYDNMBY+bTNMvNdOEDbtsGotNBWPVubRYttEnFS+Y3+p1PSMftGGeFjXYNnzg20EcSDmaNXdhmhlT0ssaT/ZqJRPqCg9zBctu3dyxnnCdSuR7AuCztLqjwjgnjrrAnzp+6l6dlPc+2ekGbuJz9U6rwR7SaSi+g6j7sHoYUolAnQxi9xHsd6aKXHYVPkFry2zqrKdlyKfiXt+dThOUcn9Ju0o9IIdofQFvaWlmKbWL4lJaBL+GzPMVILxUDYyN23s5pbnPKea7Zqtu+MQCwPumtKRmtUgcWEx1+ekYWH3gMX+AY9WWSDjVdtWm6FyUx6KnS90rwQKBgQDPOBLXoWNoJyTbLFvkrEAv+qiZxi3v0Xf3C+gqM88bq3/AQ5C0ZmQnJO542IGcFV6YG484Tph4xm9e1poyVqe7wdI6lGRub1VzgmPmX/77G3JGzGyf0hHRaixln+p7VvZzIkTxL4IOlDbtTQ/I5AmVsxL7Pv+t091afosHAXkrqQKBgQCyZPcP6+Cvw1pxDK7gzYzoJq+jmGIgpaxXKWN4UQSnJSX74Dhe6MjU7MoCjw7AxAqZDUms7TYrX9cjdo4Wtrv0tQnmqGR9+6MLFl2PJtv2ffbJY8dhV0hGuDQfAtktZEPx5WvJWXCYzFklIXgIu7FN9ssKFanXoCzfrGHhMe0thQKBgQCFpHlqfliZRJ2diRde/MSM7REt08WupJ7FQvWhujY5dzr2Kd06q8quAECYybGVk6alXSjaPL5TLk+Hj8p06rRVAGTwiOHY447t50s8ue69zm6+QHtR++6n69zkUeWtVGGv0Ys7LdOoSWi/VPL4MjIITSzRw0isuDZLdc9+XjHiuQKBgE1XYpmffQkWm9ZZVlQWKZnYc9tsTFa1HROo2Pwnu+mvPFmH60iSicduZWJYnV/LXoDeduum6A5D/eTdGFsWnERKXOGIbhEEkLpU1vkiMskZ8W18ectk6OvoHoi3VmrMhnyQJ3vi7+L+7UMg0IaQwRz4+ywDGmBmjC3o8YKNf7N1AoGACCGn0cV9T6geCwvbToXpu5wNZ7IQi297wPpybRbxRoTyAR02VDol8PWlB09gJg0mCGSU8S2TdEUUxKElljMQ0H9rWjFtXEHxX+hE8LnbdMuEhAMHHW2lVw98O/OX52S+XzJlbnvWsUOUF+SceW1W5r5aZubynpP62OwERPKmoe0=
+     publicKey: MIIxBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhifW3+zi23PllZ7L8MaeIdsGPyCgwOJGK2KuL/a0maWpaQidp823BzKIpdNOH1Tl1L2wNyXN+VBTeY1cVtoShWnBKvddbGPtWF2jtobM/TSlRzHOnQkR4h79sgeD5tqJLWs29EifKqJUmRqPKpLhNZbPW9DvGqcuWoZn0UGg/8z+A6Vp/ydDndBfz7hTOQABEX1bova6wQaUxT2IfnMe2xLZIWYiYOFz8mVk5WndgyPpjK1CQp7xhjmip0Iqiwny7hgbXs2PvU4dAv/TNEz1o2U1PLGKs+2b32gvlM/6RyCtcP8vrbZxX5WW0GZExzplrviB0BlNYHP+F8xm18EQWwIDAQAB
+     #serverUrl: https://openapi.alipaydev.com/gateway.do
+     serverUrl: https://openapi.alipay.com/gateway.do
+     domain: http://139.9.7.50:8080
+  wxpay:
+     appId: wx175aacee5b06c0c00
+     appSecret: f63935ef5f988c334f955ad3b399cfed0
+     mchId: 15382814110
+     partnerKey: huaikonggujituangufenyouxiangong0
+     certPath: apiclient_cert.p12
+     domain: http://139.9.7.50:8080
+
+# 注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://weirdo:weirdo@127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+ribbon:
+  ConnectTimeout: 4000 # 连接超时时间(ms)
+  ReadTimeout: 2000 # 通信超时时间(ms)
+  OkToRetryOnAllOperations: true # 是否对所有操作重试
+  MaxAutoRetriesNextServer: 1 # 同一服务不同实例的重试次数
+  MaxAutoRetries: 1 # 同一实例的重试次数
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMillisecond: 10000 # 熔断超时时长：10000ms

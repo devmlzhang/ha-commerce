@@ -1,0 +1,43 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: ha-sms
+  rabbitmq:
+    host: localhost
+    virtual-host: /ha
+    username: ha_car
+    password: ha16**
+
+hasms:
+  sms:
+    accessKeyId: LTAIqlu2XCiUpdLG0
+    accessKeySecret: xf1lBa9IOqUlnPUJAdDoBSB1l1SXxO0
+    signName: 永不言弃
+    verifyCodeTemplate: SMS_171351497
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://weirdo:weirdo@127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+ribbon:
+  ConnectTimeout: 4000 # 连接超时时间(ms)
+  ReadTimeout: 2000 # 通信超时时间(ms)
+  OkToRetryOnAllOperations: true # 是否对所有操作重试
+  MaxAutoRetriesNextServer: 1 # 同一服务不同实例的重试次数
+  MaxAutoRetries: 1 # 同一实例的重试次数
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMillisecond: 10000 # 熔断超时时长：10000ms

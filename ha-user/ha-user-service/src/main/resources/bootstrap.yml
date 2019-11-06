@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ha-user
+  cloud:
+    config:
+      uri: http://localhost:8769
+      fail-fast: true
+
+

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="/static/lib/mq/jquery.js"></script>
+<script type="text/javascript" src="/static/lib/mq/browserMqtt.min.js"></script>
+<script type="text/javascript" src="/static/lib/mq/mqfactory.js"></script>
+<div>
+    <lable>Host: </lable><input id="txtHost" placeholder="127.0.0.1" value="127.0.0.1" /><br />
+    <lable>Port: </lable><input id="txtPort" placeholder="15675" value="15675" /><br />
+    <label>UserName: </label><input id="txtUserName" placeholder="username" value="guest" /><br />
+    <label>Password: </label><input id="txtPassword" placeholder="password" value="guest" /><br />
+    <label>Protocol: </label><input id="txtProtocol" placeholder="ws" value="ws" /><br />
+    <input id="btnConnect" type="button" value="Connect RabbitMQ" />
+</div>
+<div>
+    <input id="btnSubscribe" type="button" value="Subscribe" />
+    <input id="btnPublish" type="button" value="Publish" /><br />
+    <input id="btnSSHuanjing" type="button" value="订阅消息" />
+    <input id="hdnIsSubscribed" type="hidden" value="" />
+    <input id="btnPubHuanjing" type="button" value="发送消息"><br />
+    路由:<input id="btnRoutingKey" type="text" value="/ha/test"><br />
+    <input id="txtMessage" type="text" placeholder="Please enter message" />
+</div>
+<div>
+    <label>log:</label><br />
+    <ul id="lstLog"></ul>
+    <input id="btnClearLog" type="button" value="Clear Log" />
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var mqclient;
+        //var routingKey = 'Dcon.Logs.ServerWebShow';
+        var message;
+
+        $('#btnSubscribe').attr('disabled', 'disabled');
+        $('#btnPublish').attr('disabled', 'disabled');
+        $('#btnSSHuanjing').attr('disabled', 'disabled');
+        $('#btnPubHuanjing').attr('disabled', 'disabled');
+
+        $('#btnConnect').click(function () {
+            var mqttOpts = {
+                host: (() => $('#txtHost').val())(),
+                port: (() => $('#txtPort').val())(),
+                username: (() => $('#txtUserName').val())(),
+                password: (() => $('#txtPassword').val())(),
+                //transformWsUrl方法用于在浏览器中使用MQTT的场景，默认情况下,MQTT自动生成的url为ws://ip:port形式，
+                //然而服务器要求的格式是ws://ip:port/ws，所以MQTT提供了此接口用于在生成url时自定义url格式
+                transformWsUrl: (url, opts, client) => { return opts.protocol && opts.protocol == 'ws' ? url + 'ws' : url; },
+                clientId: (() => { return 'mqttjs_' + Math.random().toString(16).substr(2, 8); })()
+        };
+
+             console.log("mqttOpts:"+mqttOpts.host);
+             console.log("mqttOpts.transformWsUrl:"+mqttOpts.transformWsUrl);
+             console.log("mqttOpts.clientId:"+mqttOpts.clientId);
+
+            var biz = {
+                weirdo: function (handler, isOn) {
+                    if (isOn !== false) {
+                        this.ss(this.topics.weirdo, handler);
+                    } else {
+                        this.sus(this.topics.weirdo, handler);
+                    }
+                },
+                topics: {
+                    weirdo: '/ha/test'
+                }
+            };
+            //系统初始化时注入连接选项
+            mqfactory.inject(mqttOpts, biz);
+            //创建mqclient单例
+            mqclient = mqfactory.create();
+            //注册mqclient的连接成功事件
+            mqclient.on('connect', mqconnected);
+        });
+
+        $('#btnSubscribe').click(function () {
+            if ($(this).val() == 'Subscribe') {
+                //订阅成功后，仅注册一次事件(要考虑每次注册事件时，事件处理器调用的次数，如果仅用一次，就用once方法)
+                //routingKey = $("#btnRoutingKey").val();
+                mqclient.once('onss', mqSubscribeSuccess);
+                //简单订阅
+                mqclient.ss($("#btnRoutingKey").val());
+            } else {
+                mqclient.once('onsus', mqUnsubscribeSuccess)
+                mqclient.sus($("#btnRoutingKey").val());
+            }
+        });
+
+        $('#btnPublish').click(function () {
+            var msg = $('#txtMessage').val().length > 0 ? $('#txtMessage').val() : guid();
+            if (message === msg) {
+                msg = guid();
+            }
+            message = msg;
+            $('#txtMessage').val(message);
+            //发送消息
+            mqclient.pub($("#btnRoutingKey").val(), message);
+            $('#lstLog').append('<li>Send Message: ' + message + '</li>');
+        });
+
+        $('#btnSSHuanjing').click(function () {
+            if ($(this).val() == 'Subscribe Huanjing') {
+                mqclient.once('onss', mqHJSubscribeSuccess);
+                mqclient.weirdo(onHuanjingMessageArrived);
+            } else {
+                mqclient.once('onsus', mqHJUnsubscribeSuccess);
+                mqclient.weirdo(onHuanjingMessageArrived, false);
+            }
+        });
+
+        $('#btnPubHuanjing').click(function () {
+            var msg = $('#txtMessage').val().length > 0 ? $('#txtMessage').val() : guid();
+            if (message === msg) {
+                msg = guid();
+            }
+            message = msg;
+            $('#txtMessage').val(message);
+            //发送消息
+            mqclient.pub(mqclient.topics.weirdo, message);
+            $('#lstLog').append('<li>Send XX Message: ' + message + '</li>');
+        });
+
+        $('#btnClearLog').click(function () {
+            $('#lstLog').empty();
+        });
+
+        function mqconnected() {
+            //alert("mqconnected");
+            $('#btnSubscribe').removeAttr('disabled');
+            $('#btnPublish').removeAttr('disabled');
+            $('#btnSSHuanjing').removeAttr('disabled');
+            $('#btnPubHuanjing').removeAttr('disabled');
+            $('#lstLog').append('<li>mqclient connected</li>');
+        }
+
+        function mqSubscribeSuccess() {
+            //订阅成功，就注册接受消息的方法，此处要接收多次，因此使用了on
+            mqclient.on($("#btnRoutingKey").val(), onMessageArrived);
+            $('#btnSubscribe').val('Unsubscribe');
+            $('#lstLog').append('<li>Subscribe successful.' + $("#btnRoutingKey").val()+'</li>');
+        }
+
+        function mqUnsubscribeSuccess() {
+            //注销订阅，所以将事件处理器解除绑定
+            mqclient.off($("#btnRoutingKey").val(), onMessageArrived);
+            $('#btnSubscribe').val('Subscribe');
+            $('#lstLog').append('<li>Unsubscribe successful</li>');
+        }
+
+        function mqHJSubscribeSuccess() {
+            $('#btnSSHuanjing').val('Unsubscribe Huanjing');
+            $('#lstLog').append('<li>Hanjing Subscribe successful</li>');
+        }
+
+        function mqHJUnsubscribeSuccess() {
+            $('#btnSSHuanjing').val('Subscribe Huanjing');
+            $('#lstLog').append('<li>Huanjing Unsubscribe successful</li>');
+        }
+
+        function onMessageArrived(message) {
+            $('#lstLog').append('<li>Receive message: ' + new Date().toString() + '    ' + message.toString() + '</li>');
+        }
+
+        function onHuanjingMessageArrived(message) {
+            $('#lstLog').append('<li>Receive Huanjing message: ' + new Date().toString() + '    ' + message.toString() + '</li>');
+        }
+
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                s4() + '-' + s4() + s4() + s4();
+        }
+    });
+</script>
+</html>

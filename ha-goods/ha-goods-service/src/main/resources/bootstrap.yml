@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: ha-goods
+  cloud:
+    config:
+      uri: http://localhost:8769
+      fail-fast: true
+

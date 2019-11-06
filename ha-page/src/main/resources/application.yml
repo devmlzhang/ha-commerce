@@ -1,0 +1,17 @@
+
+### 端口号
+server:
+  port: 8088
+
+### 模版引擎
+spring:
+  resources.static-locations: classpath:/templates/,classpath:/static/
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+    encoding: UTF-8
+    mode: HTML5
+    suffix: .html
+  mvc:
+    static-path-pattern: /static/**
+

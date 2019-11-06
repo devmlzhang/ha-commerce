@@ -1,0 +1,69 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: ha-gateway
+#  redis:
+#    host: 192.168.0.108
+
+zuul:
+  prefix: /api # 添加路由前缀
+  retryable: true
+  routes:
+    ha-goods: /goods/** # 将商品微服务映射到/goods/**
+    ha-authorization: /auth/** # 将权限微服务映射到/auth/**
+  add-host-header: true #携带请求本身的head头信息
+  sensitive-headers: #匹配禁止使用的头信息，这里设置为null，否则set-cookie无效
+
+
+  #网关限流
+  ratelimit:
+    enabled: true
+#    repository: redis
+    default-policy:
+      limit: 2
+      quota: 10
+      refresh-interval: 6
+    policies:
+      ha-goods:
+        limit: 3
+        quota: 10
+        refresh-interval: 5
+        type: url
+
+
+
+ha:
+  filter:
+    allowPaths:
+      /api/goods
+      /api/search
+      /api/user
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://weirdo:weirdo@127.0.0.1:10086/eureka
+    registry-fetch-interval-seconds: 5
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true  #当你获取host时，返回的不是主机名，而是ip
+    ip-address: 127.0.0.1
+
+ribbon:
+  ConnectTimeout: 4000 # 连接超时时间(ms)
+  ReadTimeout: 2000 # 通信超时时间(ms)
+  OkToRetryOnAllOperations: true # 是否对所有操作重试
+  MaxAutoRetriesNextServer: 1 # 同一服务不同实例的重试次数
+  MaxAutoRetries: 1 # 同一实例的重试次数
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMillisecond: 10000 # 熔断超时时长：10000ms
+
+
+

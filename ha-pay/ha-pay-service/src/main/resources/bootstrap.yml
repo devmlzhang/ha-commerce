@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ha-pay
+  cloud:
+    config:
+      uri: http://localhost:8769
+      fail-fast: true
+
+
