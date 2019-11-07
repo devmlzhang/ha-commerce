@@ -8,7 +8,7 @@ import tk.mybatis.mapper.common.IdsMapper;
 
 /**
  * <p>
- *     Mapper插件接口，如需其他接口参考官方文档自行添加
+ *     Mapper插件通用接口
  * </p>
  *
  * @author ML.Zhang
