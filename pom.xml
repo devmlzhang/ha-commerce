@@ -60,6 +60,7 @@
         <aliyun.sms.sdk.version>1.0.0</aliyun.sms.sdk.version>
         <redis.version>2.1.4.RELEASE</redis.version>
         <spring.security.version>5.1.0.RELEASE</spring.security.version>
+        <sharding-sphere.version>3.1.0</sharding-sphere.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <jwt.version>0.9.1</jwt.version>
         <oauth2.version>2.1.2.RELEASE</oauth2.version>
@@ -72,8 +73,8 @@
         <spring.config.version>2.0.0.RELEASE</spring.config.version>
         <hutool.version>4.6.5</hutool.version>
         <dockerfile-maven-version>1.3.7</dockerfile-maven-version>
-        <aquarius.version>2.0.6</aquarius.version>
-        <curator.version>2.11.1</curator.version>
+        <aquarius.version>2.0.10</aquarius.version>
+        <curator.version>2.12.0</curator.version>
         <ha-user-interface.version>1.0.0-SNAPSHOT</ha-user-interface.version>
     </properties>
 
@@ -193,14 +194,19 @@
             </dependency>
 
             <!-- 分布式锁开始-->
-            <dependency>
+            <!--<dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-recipes</artifactId>
                 <version>${curator.version}</version>
-            </dependency>
+            </dependency>-->
             <dependency>
                 <groupId>com.nepxion</groupId>
                 <artifactId>aquarius-lock-starter</artifactId>
+                <version>${aquarius.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nepxion</groupId>
+                <artifactId>aquarius-lock-zookeeper</artifactId>
                 <version>${aquarius.version}</version>
             </dependency>
             <!-- 分布式锁结束-->
@@ -281,6 +287,21 @@
                 <version>${security-jwt.version}</version>
             </dependency>
 
+
+            <!-- for spring boot -->
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+
+            <!-- for spring namespace -->
+          <!--  <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-namespace</artifactId>
+                <version>${sharding-sphere.version}</version>
+            </dependency>
+-->
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>

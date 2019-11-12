@@ -15,6 +15,20 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml #定义xml文件位置，不是必须的，如果需要在xml写sql请配置此选项
   type-aliases-package: com.ha.goods.pojo  # 注意：对应实体类的路径
 
+#分布式锁
+# Prefix
+prefix: ha-goods
+lock:
+  type: zookeeperLock  # 采用 zookeeperLock
+# 当切面拦截出现异常，如果忽略该异常，则不影响当前业务方法调用，否则中断当前业务方法调用，缺省为true
+# lock.aop.exception.ignore=true
+curator:
+  connectString: 127.0.0.1:2181
+# Frequent log print
+frequent:
+    log:
+      print: true
+
 eureka:
   client:
     service-url:
