@@ -3,7 +3,7 @@
 
 ##一、模块说明
 -------------
-* 使用技术: SpringCloud全家桶、Elasticsearch、Redis、TkMapper、RabbitMQ、Swagger、Oauth2、OSS文件存储、阿里短信、微信支付宝支付
+* 使用技术: SpringCloud全家桶、Elasticsearch、Redis、TkMapper、RabbitMQ、Swagger、Oauth2、OSS文件存储、阿里短信、微信支付宝支付、分布式锁
 1. ha-common:公共类
 2. ha-config:公共配置文件服务
 3. ha-registry:注册中心服务
