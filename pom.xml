@@ -28,6 +28,8 @@
         <module>ha-sms</module>
         <module>ha-search</module>
         <module>ha-page</module>
+        <module>ha-flow</module>
+
     </modules>
 
 

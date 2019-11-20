@@ -16,6 +16,7 @@
 10. ha-sms: 短信服务
 11. ha-search: 搜索服务
 12. ha-page: 页面服务
+13. ha-flow: 工作流服务
 
 
 ##二、服务端口占用
@@ -34,6 +35,7 @@
 * ha-sms                8086
 * ha-search             8087
 * ha-page               8088
+* ha-flow               8089
 
 
 ##三、权限控制
