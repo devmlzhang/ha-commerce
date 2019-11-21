@@ -29,6 +29,7 @@
         <module>ha-search</module>
         <module>ha-page</module>
         <module>ha-flow</module>
+        <module>ha-generator</module>
 
     </modules>
 
