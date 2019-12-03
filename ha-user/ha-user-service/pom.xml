@@ -24,10 +24,6 @@
             <version>${ha-user-interface.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.ha</groupId>
-            <artifactId>ha-common</artifactId>
-        </dependency>
         <!-- mybatis启动器 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

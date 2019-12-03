@@ -4,34 +4,19 @@ spring:
   application:
     name: ha-flow
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/ha_flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+    url: jdbc:mysql://localhost:3306/activiti?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&nullCatalogMeansCurrent=true
     username: root
     password: root
-    hikari:
-      minimum-idle: 5
-      idle-timeout: 600000
-      maximum-pool-size: 10
-      auto-commit: true
-      pool-name: MyHikariCP
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
-  rabbitmq:
-    host: localhost
-    #username: ha_car
-    username: guest
-    #password: ha16**
-    password: guest
-    #virtual-host: /ha
-    virtual-host: /
-  redis:
-    host: localhost
 
-mybatis:
-  type-aliases-package: com.ha.user.pojo
-  mapper-locations: classpath:mapper/*.xml
+  activiti:
+    database-schema-update: true
+    history-level: full
+    db-history-used: true
+    check-process-definitions: false
+
+# swagger配置(true,false)
+swagger:
+  enabled: true
 
 
 # 注册中心
