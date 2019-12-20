@@ -1,7 +1,5 @@
 package com.ha.user.api;
 
-import com.ha.common.response.ResponseResult;
-import com.ha.user.pojo.SysUser;
 import com.ha.user.pojo.UserExt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -12,13 +12,13 @@ public class AuthToken {
     /**
      * 访问token就是短令牌，用户身份令牌
      */
-    String access_token;
+    String accessToken;
     /**
      * 刷新token
      */
-    String refresh_token;
+    String refreshToken;
     /**
      * jwt令牌
      */
-    String jwt_token;
+    String jwtToken;
 }

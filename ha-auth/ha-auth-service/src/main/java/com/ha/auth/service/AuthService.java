@@ -53,11 +53,11 @@ public class AuthService {
             ExceptionCast.cast(ResultEnum.AUTH_LOGIN_APPLYTOKEN_FAIL);
         }
         //用户身份令牌
-        String access_token = authToken.getAccess_token();
+        String accessToken = authToken.getAccessToken();
         //存储到redis中的内容
         String jsonString = JSON.toJSONString(authToken);
         //将令牌存储到redis
-        boolean result = this.saveToken(access_token, jsonString, tokenValiditySeconds);
+        boolean result = this.saveToken(accessToken, jsonString, tokenValiditySeconds);
         if (!result) {
             ExceptionCast.cast(ResultEnum.AUTH_LOGIN_TOKEN_SAVEFAIL);
         }
@@ -68,20 +68,20 @@ public class AuthService {
 
     /**
      *
-     * @param access_token 用户身份令牌
+     * @param accessToken 用户身份令牌
      * @param content  内容就是AuthToken对象的内容
      * @param ttl 过期时间
      * @return
      */
-    private boolean saveToken(String access_token,String content,long ttl){
-        String key = "user_token:" + access_token;
+    private boolean saveToken(String accessToken,String content,long ttl){
+        String key = "user_token:" + accessToken;
         stringRedisTemplate.boundValueOps(key).set(content,ttl, TimeUnit.SECONDS);
         Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
         return expire>0;
     }
     //删除token
-    public boolean delToken(String access_token){
-        String key = "user_token:" + access_token;
+    public boolean delToken(String accessToken){
+        String key = "user_token:" + accessToken;
         stringRedisTemplate.delete(key);
         return true;
     }
@@ -105,9 +105,9 @@ public class AuthService {
         AuthToken authToken = new AuthToken();
         JWT jwt = authServiceClient.getToken(getHttpBasic(clientId, clientSecret), "password", username, password);
         if(jwt!=null){
-            authToken.setAccess_token(jwt.getJti());//jti短令牌 用户身份令牌
-            authToken.setRefresh_token(jwt.getRefresh_token());//刷新令牌
-            authToken.setJwt_token(jwt.getAccess_token());//jwt令牌
+            authToken.setAccessToken(jwt.getJti());//jti短令牌 用户身份令牌
+            authToken.setRefreshToken(jwt.getRefresh_token());//刷新令牌
+            authToken.setJwtToken(jwt.getAccess_token());//jwt令牌
         }
         return authToken;
     }

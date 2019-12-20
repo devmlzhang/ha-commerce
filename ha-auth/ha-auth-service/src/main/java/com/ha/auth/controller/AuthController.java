@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * <p>
- *    
+ *
  * </p>
  *
  * @author ML.Zhang
@@ -62,11 +62,11 @@ public class AuthController {
         AuthToken authToken =  authService.login(username,password,clientId,clientSecret);
 
         //用户身份令牌
-        String access_token = authToken.getAccess_token();
+        String accessToken = authToken.getAccessToken();
         //将令牌存储到cookie
-        this.saveCookie(access_token);
+        this.saveCookie(accessToken);
 
-        return ResponseResult.successResult("success",access_token);
+        return ResponseResult.successResult("success",accessToken);
     }
 
     //将令牌存储到cookie
@@ -110,8 +110,8 @@ public class AuthController {
         AuthToken userToken = authService.getUserToken(uid);
         if(userToken!=null){
             //将jwt令牌返回给用户
-            String jwt_token = userToken.getJwt_token();
-            return ResponseResult.successResult(jwt_token);
+            String jwtToken = userToken.getJwtToken();
+            return ResponseResult.successResult(jwtToken);
         }
         return null;
     }
