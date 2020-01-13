@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ha.url.mapper.TbUrlMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ha.url.pojo.TbUrl">
+             <id column="uuid" property="uuid" jdbcType="STRING"/>
+             <result column="shorl_url_id" property="shorlUrlId" jdbcType="STRING"/>
+             <result column="long_url" property="longUrl" jdbcType="STRING"/>
+             <result column="create_time" property="createTime" jdbcType="DATE"/>
+             <result column="last_view" property="lastView" jdbcType="DATE"/>
+             <result column="view_pwd" property="viewPwd" jdbcType="STRING"/>
+    </resultMap>
+
+
+</mapper>
