@@ -51,7 +51,7 @@
         <lombok.version>1.18.6</lombok.version>
         <ha-goods-interface.version>1.0.0-SNAPSHOT</ha-goods-interface.version>
         <jackson.version>2.9.7</jackson.version>
-        <spring.webmvc.version>5.0.6.RELEASE</spring.webmvc.version>
+        <spring.webmvc.version>5.2.20.RELEASE</spring.webmvc.version>
         <thymeleaf.version>RELEASE</thymeleaf.version>
         <ratelimit.version>2.0.4.RELEASE</ratelimit.version>
         <spring.amqp.version>2.1.4.RELEASE</spring.amqp.version>
